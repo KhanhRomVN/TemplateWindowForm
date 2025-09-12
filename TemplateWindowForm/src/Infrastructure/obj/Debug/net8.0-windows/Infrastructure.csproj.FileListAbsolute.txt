@@ -1,0 +1,15 @@
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\bin\Debug\net8.0-windows\Infrastructure.deps.json
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\bin\Debug\net8.0-windows\Infrastructure.dll
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\bin\Debug\net8.0-windows\Infrastructure.pdb
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\bin\Debug\net8.0-windows\Core.dll
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\bin\Debug\net8.0-windows\Core.pdb
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\Infrastructure.csproj.AssemblyReference.cache
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\Infrastructure.AssemblyInfoInputs.cache
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\Infrastructure.AssemblyInfo.cs
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\Infrastructure.csproj.CoreCompileInputs.cache
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\Infrastr.15EFFBFE.Up2Date
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\Infrastructure.dll
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\refint\Infrastructure.dll
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\Infrastructure.pdb
+\\vmware-host\Shared Folders\Coding\TemplateWindowForm\TemplateWindowForm\src\Infrastructure\obj\Debug\net8.0-windows\ref\Infrastructure.dll
