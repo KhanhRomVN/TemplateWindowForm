@@ -1,3 +1,4 @@
+#nullable enable
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -15,8 +16,12 @@ namespace Presentation.WinFormsApp.UserControls.Common
 
         public override string Text
         {
-            get => _textBox.Text;
-            set => _textBox.Text = value;
+            get => _textBox?.Text ?? string.Empty;
+            set
+            {
+                if (_textBox != null)
+                    _textBox.Text = value ?? string.Empty;
+            }
         }
 
         public string PlaceholderText
@@ -24,8 +29,8 @@ namespace Presentation.WinFormsApp.UserControls.Common
             get => _placeholderText;
             set
             {
-                _placeholderText = value;
-                if (string.IsNullOrEmpty(_textBox.Text))
+                _placeholderText = value ?? string.Empty;
+                if (_textBox != null && string.IsNullOrEmpty(_textBox.Text))
                 {
                     ShowPlaceholder();
                 }
@@ -38,7 +43,8 @@ namespace Presentation.WinFormsApp.UserControls.Common
             set
             {
                 _isPasswordChar = value;
-                _textBox.UseSystemPasswordChar = value;
+                if (_textBox != null)
+                    _textBox.UseSystemPasswordChar = value;
             }
         }
 
@@ -54,17 +60,25 @@ namespace Presentation.WinFormsApp.UserControls.Common
 
         public bool ReadOnly
         {
-            get => _textBox.ReadOnly;
-            set => _textBox.ReadOnly = value;
+            get => _textBox?.ReadOnly ?? false;
+            set
+            {
+                if (_textBox != null)
+                    _textBox.ReadOnly = value;
+            }
         }
 
-        public override Font Font
+        public override Font? Font
         {
-            get => _textBox.Font;
-            set => _textBox.Font = value;
+            get => _textBox?.Font;
+            set
+            {
+                if (_textBox != null && value != null)
+                    _textBox.Font = value;
+            }
         }
 
-        public event EventHandler? TextChanged;
+        public new event EventHandler? TextChanged;
 
         public CustomTextBox(IThemeService themeService)
         {
@@ -130,7 +144,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
             }
 
             // Draw border
-            var borderColor = _textBox.Focused ? colors.Primary : colors.Border;
+            var borderColor = (_textBox?.Focused ?? false) ? colors.Primary : colors.Border;
             using (var pen = new Pen(borderColor, 1))
             {
                 g.DrawPath(pen, path);
@@ -179,7 +193,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
 
         private void OnTextBoxEnter(object? sender, EventArgs e)
         {
-            if (_textBox.Text == _placeholderText)
+            if (_textBox?.Text == _placeholderText)
             {
                 HidePlaceholder();
             }
@@ -188,7 +202,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
 
         private void OnTextBoxLeave(object? sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_textBox.Text))
+            if (string.IsNullOrEmpty(_textBox?.Text))
             {
                 ShowPlaceholder();
             }
@@ -197,7 +211,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
 
         private void ShowPlaceholder()
         {
-            if (!string.IsNullOrEmpty(_placeholderText))
+            if (_textBox != null && !string.IsNullOrEmpty(_placeholderText))
             {
                 _textBox.Text = _placeholderText;
                 _textBox.ForeColor = _themeService.CurrentColors.TextSecondary;
@@ -206,7 +220,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
 
         private void HidePlaceholder()
         {
-            if (_textBox.Text == _placeholderText)
+            if (_textBox?.Text == _placeholderText)
             {
                 _textBox.Text = string.Empty;
                 _textBox.ForeColor = _themeService.CurrentColors.TextPrimary;
@@ -218,15 +232,18 @@ namespace Presentation.WinFormsApp.UserControls.Common
             var colors = _themeService.CurrentColors;
             
             BackColor = Color.Transparent;
-            _textBox.BackColor = colors.Surface;
-            
-            if (string.IsNullOrEmpty(_textBox.Text) || _textBox.Text == _placeholderText)
+            if (_textBox != null)
             {
-                _textBox.ForeColor = colors.TextSecondary;
-            }
-            else
-            {
-                _textBox.ForeColor = colors.TextPrimary;
+                _textBox.BackColor = colors.Surface;
+                
+                if (string.IsNullOrEmpty(_textBox.Text) || _textBox.Text == _placeholderText)
+                {
+                    _textBox.ForeColor = colors.TextSecondary;
+                }
+                else
+                {
+                    _textBox.ForeColor = colors.TextPrimary;
+                }
             }
             
             Invalidate();

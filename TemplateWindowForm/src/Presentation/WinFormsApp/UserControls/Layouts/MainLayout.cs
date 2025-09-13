@@ -16,6 +16,7 @@ namespace Presentation.WinFormsApp.UserControls.Layouts
         private Panel _sidebarContainer = null!;
         private CustomButton _homeButton = null!;
         private CustomButton _toolButton = null!;
+        private CustomButton _settingsButton = null!; // Added missing declaration
         private Label _appTitleLabel = null!;
 
         public Panel MainContentPanel => _mainContentPanel;

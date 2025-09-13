@@ -1,12 +1,84 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3C76EF85-F9F5-46CE-9D69-A3ADC05B33A8}|TemplateWindowForm\\src\\Presentation\\WinFormsApp\\WinFormsApp.csproj|\\\\vmware-host\\shared folders\\coding\\dual\\templatewindowform\\templatewindowform\\src\\presentation\\winformsapp\\usercontrols\\layouts\\mainlayout.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C76EF85-F9F5-46CE-9D69-A3ADC05B33A8}|TemplateWindowForm\\src\\Presentation\\WinFormsApp\\WinFormsApp.csproj|\\\\vmware-host\\shared folders\\coding\\dual\\templatewindowform\\templatewindowform\\src\\presentation\\winformsapp\\usercontrols\\settingspage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C76EF85-F9F5-46CE-9D69-A3ADC05B33A8}|TemplateWindowForm\\src\\Presentation\\WinFormsApp\\WinFormsApp.csproj|\\\\vmware-host\\shared folders\\coding\\dual\\templatewindowform\\templatewindowform\\src\\presentation\\winformsapp\\usercontrols\\common\\custombutton.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-E5F6-7890-ABCD-123456789ABC}|TemplateWindowForm\\src\\Core\\Core.csproj|\\\\vmware-host\\shared folders\\coding\\dual\\templatewindowform\\templatewindowform\\src\\core\\enums\\themetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainLayout.cs",
+              "DocumentMoniker": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\Layouts\\MainLayout.cs",
+              "RelativeDocumentMoniker": "TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\Layouts\\MainLayout.cs",
+              "ToolTip": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\Layouts\\MainLayout.cs",
+              "RelativeToolTip": "TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\Layouts\\MainLayout.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAewF0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T14:54:29.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SettingsPage.Designer.cs",
+              "DocumentMoniker": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\SettingsPage.Designer.cs",
+              "RelativeDocumentMoniker": "TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\SettingsPage.Designer.cs",
+              "ToolTip": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\SettingsPage.Designer.cs",
+              "RelativeToolTip": "TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\SettingsPage.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T14:49:42.871Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ThemeType.cs",
+              "DocumentMoniker": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Enums\\ThemeType.cs",
+              "RelativeDocumentMoniker": "TemplateWindowForm\\src\\Core\\Enums\\ThemeType.cs",
+              "ToolTip": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Enums\\ThemeType.cs",
+              "RelativeToolTip": "TemplateWindowForm\\src\\Core\\Enums\\ThemeType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T14:38:55.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CustomButton.Designer.cs",
+              "DocumentMoniker": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\Common\\CustomButton.Designer.cs",
+              "RelativeDocumentMoniker": "TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\Common\\CustomButton.Designer.cs",
+              "ToolTip": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\Common\\CustomButton.Designer.cs",
+              "RelativeToolTip": "TemplateWindowForm\\src\\Presentation\\WinFormsApp\\UserControls\\Common\\CustomButton.Designer.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAD4vw8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T14:38:48.718Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

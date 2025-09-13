@@ -146,7 +146,10 @@ namespace Presentation.WinFormsApp.UserControls
             if (disposing)
             {
                 _themeService.ThemeChanged -= OnThemeChanged;
-                _themeComboBox.SelectedIndexChanged -= OnThemeSelectionChanged;
+                if (_themeComboBox != null)
+                {
+                    _themeComboBox.SelectedIndexChanged -= OnThemeSelectionChanged;
+                }
             }
             base.Dispose(disposing);
         }
