@@ -110,11 +110,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\WinFormsApp.csproj",
+      "projectUniqueName": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\WinFormsApp.csproj",
       "projectName": "WinFormsApp",
-      "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\WinFormsApp.csproj",
+      "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\WinFormsApp.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\obj\\",
+      "outputPath": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Presentation\\WinFormsApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -135,14 +135,14 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Application\\Application.csproj": {
-              "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Application\\Application.csproj"
+            "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Application\\Application.csproj": {
+              "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Application\\Application.csproj"
             },
-            "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj": {
-              "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj"
+            "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj": {
+              "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj"
             },
-            "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Infrastructure\\Infrastructure.csproj"
+            "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }

@@ -33,6 +33,7 @@ namespace Presentation.WinFormsApp.Services
         {
             // Register routes with factory functions for proper DI
             routerService.RegisterRoute("Home", () => new HomePage(themeService));
+            routerService.RegisterRoute("Tool", () => new ToolPage(themeService));
         }
 
         public void RegisterSingleton<T>(T implementation) where T : class

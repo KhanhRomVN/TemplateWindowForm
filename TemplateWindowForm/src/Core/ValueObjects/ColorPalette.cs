@@ -25,8 +25,8 @@ namespace Core.ValueObjects
         {
             Primary = Color.FromArgb(63, 81, 181),
             Secondary = Color.FromArgb(255, 193, 7),
-            Background = Color.FromArgb(250, 250, 250),
-            Surface = Color.White,
+            Background = Color.FromArgb(255, 255, 255), // Changed to pure white (#ffffff)
+            Surface = Color.FromArgb(247, 247, 247), // Changed to #f7f7f7 for sidebar
             OnPrimary = Color.White,
             OnSecondary = Color.Black,
             OnBackground = Color.FromArgb(33, 37, 41),
@@ -61,63 +61,64 @@ namespace Core.ValueObjects
             Disabled = Color.FromArgb(108, 117, 125)
         };
 
+        // Add additional color palettes for other themes
         public static ColorPalette Blue => new()
         {
-            Primary = Color.FromArgb(13, 110, 253),
-            Secondary = Color.FromArgb(108, 117, 125),
-            Background = Color.FromArgb(240, 248, 255),
-            Surface = Color.White,
+            Primary = Color.FromArgb(33, 150, 243),
+            Secondary = Color.FromArgb(255, 193, 7),
+            Background = Color.FromArgb(255, 255, 255),
+            Surface = Color.FromArgb(247, 247, 247),
             OnPrimary = Color.White,
-            OnSecondary = Color.White,
+            OnSecondary = Color.Black,
             OnBackground = Color.FromArgb(33, 37, 41),
             OnSurface = Color.FromArgb(33, 37, 41),
-            Error = Color.FromArgb(220, 53, 69),
-            Warning = Color.FromArgb(255, 193, 7),
-            Success = Color.FromArgb(25, 135, 84),
-            Info = Color.FromArgb(13, 202, 240),
+            Error = Color.FromArgb(244, 67, 54),
+            Warning = Color.FromArgb(255, 152, 0),
+            Success = Color.FromArgb(76, 175, 80),
+            Info = Color.FromArgb(33, 150, 243),
             TextPrimary = Color.FromArgb(33, 37, 41),
             TextSecondary = Color.FromArgb(108, 117, 125),
-            Border = Color.FromArgb(13, 110, 253, 40),
+            Border = Color.FromArgb(222, 226, 230),
             Disabled = Color.FromArgb(173, 181, 189)
         };
 
         public static ColorPalette Green => new()
         {
-            Primary = Color.FromArgb(25, 135, 84),
-            Secondary = Color.FromArgb(108, 117, 125),
-            Background = Color.FromArgb(248, 255, 248),
-            Surface = Color.White,
+            Primary = Color.FromArgb(76, 175, 80),
+            Secondary = Color.FromArgb(255, 193, 7),
+            Background = Color.FromArgb(255, 255, 255),
+            Surface = Color.FromArgb(247, 247, 247),
             OnPrimary = Color.White,
-            OnSecondary = Color.White,
+            OnSecondary = Color.Black,
             OnBackground = Color.FromArgb(33, 37, 41),
             OnSurface = Color.FromArgb(33, 37, 41),
-            Error = Color.FromArgb(220, 53, 69),
-            Warning = Color.FromArgb(255, 193, 7),
-            Success = Color.FromArgb(25, 135, 84),
-            Info = Color.FromArgb(13, 202, 240),
+            Error = Color.FromArgb(244, 67, 54),
+            Warning = Color.FromArgb(255, 152, 0),
+            Success = Color.FromArgb(76, 175, 80),
+            Info = Color.FromArgb(33, 150, 243),
             TextPrimary = Color.FromArgb(33, 37, 41),
             TextSecondary = Color.FromArgb(108, 117, 125),
-            Border = Color.FromArgb(25, 135, 84, 40),
+            Border = Color.FromArgb(222, 226, 230),
             Disabled = Color.FromArgb(173, 181, 189)
         };
 
         public static ColorPalette Purple => new()
         {
-            Primary = Color.FromArgb(102, 16, 242),
-            Secondary = Color.FromArgb(108, 117, 125),
-            Background = Color.FromArgb(248, 248, 255),
-            Surface = Color.White,
+            Primary = Color.FromArgb(156, 39, 176),
+            Secondary = Color.FromArgb(255, 193, 7),
+            Background = Color.FromArgb(255, 255, 255),
+            Surface = Color.FromArgb(247, 247, 247),
             OnPrimary = Color.White,
-            OnSecondary = Color.White,
+            OnSecondary = Color.Black,
             OnBackground = Color.FromArgb(33, 37, 41),
             OnSurface = Color.FromArgb(33, 37, 41),
-            Error = Color.FromArgb(220, 53, 69),
-            Warning = Color.FromArgb(255, 193, 7),
-            Success = Color.FromArgb(25, 135, 84),
-            Info = Color.FromArgb(13, 202, 240),
+            Error = Color.FromArgb(244, 67, 54),
+            Warning = Color.FromArgb(255, 152, 0),
+            Success = Color.FromArgb(76, 175, 80),
+            Info = Color.FromArgb(33, 150, 243),
             TextPrimary = Color.FromArgb(33, 37, 41),
             TextSecondary = Color.FromArgb(108, 117, 125),
-            Border = Color.FromArgb(102, 16, 242, 40),
+            Border = Color.FromArgb(222, 226, 230),
             Disabled = Color.FromArgb(173, 181, 189)
         };
     }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj": {}
+    "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj": {}
   },
   "projects": {
-    "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj": {
+    "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj",
+        "projectUniqueName": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj",
+        "projectPath": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "\\\\vmware-host\\Shared Folders\\Coding\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\obj\\",
+        "outputPath": "\\\\vmware-host\\Shared Folders\\Coding\\Dual\\TemplateWindowForm\\TemplateWindowForm\\src\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
