@@ -1,84 +1,52 @@
-#nullable enable
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Core.Interfaces.Services;
 
 namespace Presentation.WinFormsApp.UserControls.Common
 {
-    public partial class CustomTextBox : UserControl
+    public partial class CustomTextBox : TextBox
     {
         private readonly IThemeService _themeService;
-        private TextBox _textBox = null!;
-        private int _borderRadius = 4;
-        private string _placeholderText = string.Empty;
-        private bool _isPasswordChar = false;
-
-        public override string Text
-        {
-            get => _textBox?.Text ?? string.Empty;
-            set
-            {
-                if (_textBox != null)
-                    _textBox.Text = value ?? string.Empty;
-            }
-        }
+        private string _placeholderText = "";
+        private bool _isPasswordField = false;
+        private bool _hasError = false;
+        private string _errorMessage = "";
 
         public string PlaceholderText
         {
             get => _placeholderText;
             set
             {
-                _placeholderText = value ?? string.Empty;
-                if (_textBox != null && string.IsNullOrEmpty(_textBox.Text))
-                {
-                    ShowPlaceholder();
-                }
+                _placeholderText = value;
+                SetPlaceholderVisibility();
             }
         }
 
-        public bool IsPasswordChar
+        public bool IsPasswordField
         {
-            get => _isPasswordChar;
+            get => _isPasswordField;
             set
             {
-                _isPasswordChar = value;
-                if (_textBox != null)
-                    _textBox.UseSystemPasswordChar = value;
+                _isPasswordField = value;
+                UseSystemPasswordChar = value;
             }
         }
 
-        public int BorderRadius
+        public bool HasError
         {
-            get => _borderRadius;
+            get => _hasError;
             set
             {
-                _borderRadius = value;
-                Invalidate();
+                _hasError = value;
+                UpdateErrorState();
             }
         }
 
-        public bool ReadOnly
+        public string ErrorMessage
         {
-            get => _textBox?.ReadOnly ?? false;
-            set
-            {
-                if (_textBox != null)
-                    _textBox.ReadOnly = value;
-            }
+            get => _errorMessage;
+            set => _errorMessage = value;
         }
-
-        public override Font? Font
-        {
-            get => _textBox?.Font;
-            set
-            {
-                if (_textBox != null && value != null)
-                    _textBox.Font = value;
-            }
-        }
-
-        public new event EventHandler? TextChanged;
 
         public CustomTextBox(IThemeService themeService)
         {
@@ -91,162 +59,94 @@ namespace Presentation.WinFormsApp.UserControls.Common
 
         private void InitializeComponent()
         {
-            SuspendLayout();
-
+            // Modern textbox styling
+            Font = new Font("Segoe UI", 11F);
             Size = new Size(200, 35);
+            BorderStyle = BorderStyle.FixedSingle;
             
-            _textBox = new TextBox
-            {
-                BorderStyle = BorderStyle.None,
-                Font = new Font("Segoe UI", 10F),
-                Location = new Point(8, 8),
-                Multiline = false
-            };
-
-            _textBox.TextChanged += OnTextBoxTextChanged;
-            _textBox.Enter += OnTextBoxEnter;
-            _textBox.Leave += OnTextBoxLeave;
-
-            Controls.Add(_textBox);
-
-            SetStyle(ControlStyles.AllPaintingInWmPaint | 
-                     ControlStyles.UserPaint | 
-                     ControlStyles.DoubleBuffer | 
-                     ControlStyles.ResizeRedraw, true);
-
-            Resize += OnResize;
-
-            ResumeLayout(false);
-        }
-
-        private void OnResize(object? sender, EventArgs e)
-        {
-            if (_textBox != null)
-            {
-                _textBox.Size = new Size(Width - 16, Height - 16);
-                _textBox.Location = new Point(8, (Height - _textBox.Height) / 2);
-            }
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            var g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-
-            var colors = _themeService.CurrentColors;
-            var rect = new Rectangle(0, 0, Width - 1, Height - 1);
-            var path = GetRoundedRectanglePath(rect, _borderRadius);
-
-            // Fill background
-            using (var brush = new SolidBrush(colors.Surface))
-            {
-                g.FillPath(brush, path);
-            }
-
-            // Draw border
-            var borderColor = (_textBox?.Focused ?? false) ? colors.Primary : colors.Border;
-            using (var pen = new Pen(borderColor, 1))
-            {
-                g.DrawPath(pen, path);
-            }
-
-            path.Dispose();
-        }
-
-        private GraphicsPath GetRoundedRectanglePath(Rectangle rect, int radius)
-        {
-            var path = new GraphicsPath();
+            // Event handlers
+            Enter += OnTextBoxEnter;
+            Leave += OnTextBoxLeave;
+            TextChanged += OnTextBoxTextChanged;
             
-            if (radius <= 0)
-            {
-                path.AddRectangle(rect);
-                return path;
-            }
-
-            int diameter = radius * 2;
-            var arcRect = new Rectangle(rect.Location, new Size(diameter, diameter));
-
-            // Top left arc
-            path.AddArc(arcRect, 180, 90);
-
-            // Top right arc
-            arcRect.X = rect.Right - diameter;
-            path.AddArc(arcRect, 270, 90);
-
-            // Bottom right arc
-            arcRect.Y = rect.Bottom - diameter;
-            path.AddArc(arcRect, 0, 90);
-
-            // Bottom left arc
-            arcRect.X = rect.Left;
-            path.AddArc(arcRect, 90, 90);
-
-            path.CloseFigure();
-            return path;
-        }
-
-        private void OnTextBoxTextChanged(object? sender, EventArgs e)
-        {
-            TextChanged?.Invoke(this, e);
-            Invalidate(); // Repaint border if needed
-        }
-
-        private void OnTextBoxEnter(object? sender, EventArgs e)
-        {
-            if (_textBox?.Text == _placeholderText)
-            {
-                HidePlaceholder();
-            }
-            Invalidate(); // Repaint with focus border
-        }
-
-        private void OnTextBoxLeave(object? sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(_textBox?.Text))
-            {
-                ShowPlaceholder();
-            }
-            Invalidate(); // Repaint without focus border
-        }
-
-        private void ShowPlaceholder()
-        {
-            if (_textBox != null && !string.IsNullOrEmpty(_placeholderText))
-            {
-                _textBox.Text = _placeholderText;
-                _textBox.ForeColor = _themeService.CurrentColors.TextSecondary;
-            }
-        }
-
-        private void HidePlaceholder()
-        {
-            if (_textBox?.Text == _placeholderText)
-            {
-                _textBox.Text = string.Empty;
-                _textBox.ForeColor = _themeService.CurrentColors.TextPrimary;
-            }
+            SetPlaceholderVisibility();
         }
 
         private void SetupTheme()
         {
             var colors = _themeService.CurrentColors;
             
-            BackColor = Color.Transparent;
-            if (_textBox != null)
-            {
-                _textBox.BackColor = colors.Surface;
-                
-                if (string.IsNullOrEmpty(_textBox.Text) || _textBox.Text == _placeholderText)
-                {
-                    _textBox.ForeColor = colors.TextSecondary;
-                }
-                else
-                {
-                    _textBox.ForeColor = colors.TextPrimary;
-                }
-            }
+            BackColor = colors.Surface;
+            ForeColor = colors.TextPrimary;
             
-            Invalidate();
+            UpdateErrorState();
+        }
+
+        private void UpdateErrorState()
+        {
+            var colors = _themeService.CurrentColors;
+            
+            if (_hasError)
+            {
+                BackColor = Color.FromArgb(254, 242, 242); // Light red background
+                ForeColor = colors.Error;
+            }
+            else
+            {
+                BackColor = colors.Surface;
+                ForeColor = colors.TextPrimary;
+            }
+        }
+
+        private void SetPlaceholderVisibility()
+        {
+            if (string.IsNullOrEmpty(Text) && !Focused && !string.IsNullOrEmpty(_placeholderText))
+            {
+                var colors = _themeService.CurrentColors;
+                Text = _placeholderText;
+                ForeColor = colors.TextSecondary;
+            }
+        }
+
+        private void OnTextBoxEnter(object? sender, EventArgs e)
+        {
+            var colors = _themeService.CurrentColors;
+            
+            if (Text == _placeholderText)
+            {
+                Text = "";
+                ForeColor = colors.TextPrimary;
+            }
+        }
+
+        private void OnTextBoxLeave(object? sender, EventArgs e)
+        {
+            SetPlaceholderVisibility();
+        }
+
+        private void OnTextBoxTextChanged(object? sender, EventArgs e)
+        {
+            if (_hasError && !string.IsNullOrEmpty(Text) && Text != _placeholderText)
+            {
+                HasError = false; // Clear error when user starts typing
+            }
+        }
+
+        public string GetActualText()
+        {
+            return Text == _placeholderText ? "" : Text;
+        }
+
+        public void SetError(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
+            HasError = true;
+        }
+
+        public void ClearError()
+        {
+            ErrorMessage = "";
+            HasError = false;
         }
 
         private void OnThemeChanged(object? sender, ThemeChangedEventArgs e)
@@ -266,15 +166,9 @@ namespace Presentation.WinFormsApp.UserControls.Common
             if (disposing)
             {
                 _themeService.ThemeChanged -= OnThemeChanged;
-                
-                if (_textBox != null)
-                {
-                    _textBox.TextChanged -= OnTextBoxTextChanged;
-                    _textBox.Enter -= OnTextBoxEnter;
-                    _textBox.Leave -= OnTextBoxLeave;
-                }
-                
-                Resize -= OnResize;
+                Enter -= OnTextBoxEnter;
+                Leave -= OnTextBoxLeave;
+                TextChanged -= OnTextBoxTextChanged;
             }
             base.Dispose(disposing);
         }

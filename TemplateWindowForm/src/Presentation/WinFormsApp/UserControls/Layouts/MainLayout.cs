@@ -16,7 +16,7 @@ namespace Presentation.WinFormsApp.UserControls.Layouts
         private Panel _sidebarContainer = null!;
         private CustomButton _homeButton = null!;
         private CustomButton _toolButton = null!;
-        private CustomButton _settingsButton = null!; // Added missing declaration
+        private CustomButton _settingsButton = null!;
         private Label _appTitleLabel = null!;
 
         public Panel MainContentPanel => _mainContentPanel;
@@ -74,7 +74,7 @@ namespace Presentation.WinFormsApp.UserControls.Layouts
                 Height = 45,
                 Dock = DockStyle.Top,
                 ButtonStyle = ButtonStyle.Secondary,
-                TextAlign = ContentAlignment.MiddleLeft,
+                TextAlign = ContentAlignment.MiddleLeft, // Fixed: Use ContentAlignment instead of HorizontalAlignment
                 Margin = new Padding(0, 8, 0, 4)
             };
             _homeButton.Click += (s, e) => _routerService.NavigateTo("Home");
@@ -86,7 +86,7 @@ namespace Presentation.WinFormsApp.UserControls.Layouts
                 Height = 45,
                 Dock = DockStyle.Top,
                 ButtonStyle = ButtonStyle.Secondary,
-                TextAlign = ContentAlignment.MiddleLeft,
+                TextAlign = ContentAlignment.MiddleLeft, // Fixed: Use ContentAlignment instead of HorizontalAlignment
                 Margin = new Padding(0, 4, 0, 4)
             };
             _toolButton.Click += (s, e) => _routerService.NavigateTo("Tool");
@@ -99,7 +99,7 @@ namespace Presentation.WinFormsApp.UserControls.Layouts
                 Height = 45,
                 Dock = DockStyle.Bottom,
                 ButtonStyle = ButtonStyle.Secondary,
-                TextAlign = ContentAlignment.MiddleLeft,
+                TextAlign = ContentAlignment.MiddleLeft, // Fixed: Use ContentAlignment instead of HorizontalAlignment
                 Margin = new Padding(0, 4, 0, 15)
             };
             _settingsButton.Click += (s, e) => _routerService.NavigateTo("Settings");

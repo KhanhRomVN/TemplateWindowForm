@@ -12,7 +12,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="UserControls\Common\CustomTextBox.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Update="UserControls\HomePage.cs">
       <SubType>UserControl</SubType>
