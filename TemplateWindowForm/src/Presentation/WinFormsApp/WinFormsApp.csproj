@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>app.ico</ApplicationIcon>
+    <!-- Removed ApplicationIcon line that was causing the error -->
     <AssemblyTitle>Template Application</AssemblyTitle>
     <AssemblyDescription>Modern Windows Forms Template Application</AssemblyDescription>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>

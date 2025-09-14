@@ -9,7 +9,7 @@ namespace Presentation.WinFormsApp.UserControls
 
         #region Component Designer generated code
 
-        // InitializeComponent and Dispose methods are implemented in SettingsPage.cs
+        // InitializeComponent is implemented in SettingsPage.cs
 
         #endregion
     }

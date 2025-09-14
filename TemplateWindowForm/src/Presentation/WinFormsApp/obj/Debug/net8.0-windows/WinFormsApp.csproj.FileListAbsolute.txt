@@ -46,3 +46,13 @@
 \\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\obj\Debug\net8.0-windows\WinFormsApp.pdb
 \\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\obj\Debug\net8.0-windows\WinFormsApp.genruntimeconfig.cache
 \\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\obj\Debug\net8.0-windows\ref\WinFormsApp.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\FontAwesome.Sharp.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\Guna.UI2.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\System.Management.dll
+\\vmware-host\Shared Folders\Coding\Dual\TemplateWindowForm\TemplateWindowForm\src\Presentation\WinFormsApp\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll

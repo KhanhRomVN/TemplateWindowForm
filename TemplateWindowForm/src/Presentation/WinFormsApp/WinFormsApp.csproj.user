@@ -14,6 +14,9 @@
     <Compile Update="UserControls\Common\CustomTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="UserControls\Common\Sidebar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="UserControls\HomePage.cs">
       <SubType>UserControl</SubType>
     </Compile>
