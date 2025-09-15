@@ -12,5 +12,10 @@ namespace Presentation.WinFormsApp.UserControls
         // InitializeComponent is implemented in HomePage.cs
 
         #endregion
+
+        private TableLayoutPanel mainContainer;
+        private TableLayoutPanel heroContent;
+        private Panel buttonContainer;
+        private FlowLayoutPanel buttonPanel;
     }
 }

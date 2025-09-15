@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Core.Interfaces.Services;
 using Guna.UI2.WinForms;
@@ -23,7 +22,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer? components = null;
+        private IContainer? components = null;
 
         public Sidebar(IThemeService themeService, IRouterService routerService)
         {
@@ -44,7 +43,9 @@ namespace Presentation.WinFormsApp.UserControls.Common
             // Sidebar setup with modern styling
             Size = new Size(280, 700);
             BackColor = Color.White;
-            Padding = new Padding(0);
+
+            // Padding đồng nhất 20px (trái, trên, phải, dưới)
+            Padding = new Padding(20);
             Margin = new Padding(0);
 
             // Header Section (App Title + Search)
@@ -52,7 +53,6 @@ namespace Presentation.WinFormsApp.UserControls.Common
             {
                 Dock = DockStyle.Top,
                 Height = 120,
-                Padding = new Padding(20, 20, 20, 15),
                 BackColor = Color.Transparent,
                 BorderRadius = 0
             };
@@ -64,7 +64,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
                 Font = new Font(FontFamily.GenericSansSerif, 18F, FontStyle.Bold),
                 ForeColor = Color.FromArgb(30, 30, 30),
                 Location = new Point(0, 0),
-                Size = new Size(240, 35),
+                Size = new Size(230, 35),
                 BackColor = Color.Transparent
             };
 
@@ -72,7 +72,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
             _searchBox = new Guna2TextBox
             {
                 Location = new Point(0, 45),
-                Size = new Size(240, 40),
+                Size = new Size(230, 40),
                 Font = new Font(FontFamily.GenericSansSerif, 9.5F),
                 PlaceholderText = "Search...",
                 PlaceholderForeColor = Color.FromArgb(125, 137, 149),
@@ -96,7 +96,6 @@ namespace Presentation.WinFormsApp.UserControls.Common
             _navigationSection = new Guna2Panel
             {
                 Dock = DockStyle.Fill,
-                Padding = new Padding(16, 10, 16, 10),
                 BackColor = Color.Transparent,
                 AutoScroll = true,
                 BorderRadius = 0
@@ -104,17 +103,16 @@ namespace Presentation.WinFormsApp.UserControls.Common
 
             CreateNavigationButtons();
 
-            // Footer Section (Settings) with Guna2Panel
+            // Footer Section (Settings) with reduced padding
             _footerSection = new Guna2Panel
             {
                 Dock = DockStyle.Bottom,
-                Height = 70,
-                Padding = new Padding(16, 10, 16, 15),
+                Height = 55, // Reduced height
                 BackColor = Color.Transparent,
                 BorderRadius = 0
             };
 
-            var settingsButton = CreateModernNavButton("Settings", "⚙️", "Settings", 0);
+            var settingsButton = CreateModernNavButton("Settingsssss", "⚙️", "Settings", 0);
             settingsButton.Click += (s, e) => NavigateToRoute("Settings");
             _navButtons.Add(settingsButton);
 
@@ -185,22 +183,27 @@ namespace Presentation.WinFormsApp.UserControls.Common
         
         private void SetActiveButton(Guna2Button button, bool isActive)
         {
+            var isDark = _themeService.CurrentTheme == Core.Enums.ThemeType.Dark;
+            
             if (isActive)
             {
                 button.FillColor = Color.FromArgb(37, 99, 235);
                 button.ForeColor = Color.White;
                 button.Font = new Font(FontFamily.GenericSansSerif, 9.5F, FontStyle.Bold);
-                button.ShadowDecoration.Enabled = true;
-                button.ShadowDecoration.Shadow = new Padding(0, 2, 0, 0);
-                button.ShadowDecoration.Color = Color.FromArgb(50, 37, 99, 235);
+                
+                // Remove hover effects for active button
+                button.HoverState.FillColor = Color.FromArgb(37, 99, 235);
+                button.HoverState.ForeColor = Color.White;
             }
             else
             {
-                var isDark = _themeService.CurrentTheme == Core.Enums.ThemeType.Dark;
                 button.FillColor = Color.Transparent;
                 button.ForeColor = isDark ? Color.FromArgb(156, 163, 175) : Color.FromArgb(107, 114, 128);
                 button.Font = new Font(FontFamily.GenericSansSerif, 9.5F, FontStyle.Regular);
-                button.ShadowDecoration.Enabled = false;
+                
+                // Set hover effects for inactive buttons
+                button.HoverState.FillColor = isDark ? Color.FromArgb(63, 63, 70) : Color.FromArgb(243, 244, 246);
+                button.HoverState.ForeColor = isDark ? Color.FromArgb(229, 231, 235) : Color.FromArgb(75, 85, 99);
             }
         }
         
@@ -210,7 +213,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
             {
                 Text = $"  {icon}   {text}",
                 Font = new Font(FontFamily.GenericSansSerif, 9.5F, FontStyle.Regular),
-                Size = new Size(248, 42),
+                Size = new Size(240, 42),
                 Location = new Point(0, yPosition),
                 Tag = route,
                 FillColor = Color.Transparent,
@@ -218,8 +221,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
                 BorderThickness = 0,
                 TextAlign = HorizontalAlignment.Left,
                 Cursor = Cursors.Hand,
-                UseTransparentBackground = true,
-                ShadowDecoration = { Enabled = false }
+                UseTransparentBackground = true
             };
             
             // Set hover state colors
@@ -247,7 +249,6 @@ namespace Presentation.WinFormsApp.UserControls.Common
 
         private void SetupTheme()
         {
-            var colors = _themeService.CurrentColors;
             var isDark = _themeService.CurrentTheme == Core.Enums.ThemeType.Dark;
             
             if (isDark)
@@ -257,14 +258,12 @@ namespace Presentation.WinFormsApp.UserControls.Common
                 _navigationSection.BackColor = Color.FromArgb(39, 39, 42);
                 _footerSection.BackColor = Color.FromArgb(39, 39, 42);
                 
-                // Update search box for dark theme
                 _searchBox.FillColor = Color.FromArgb(63, 63, 70);
                 _searchBox.ForeColor = Color.FromArgb(161, 161, 170);
                 _searchBox.PlaceholderForeColor = Color.FromArgb(115, 115, 115);
                 _searchBox.BorderColor = Color.FromArgb(82, 82, 89);
                 _searchBox.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
                 
-                // Update app title for dark theme
                 _appTitleLabel.ForeColor = Color.White;
             }
             else
@@ -274,18 +273,15 @@ namespace Presentation.WinFormsApp.UserControls.Common
                 _navigationSection.BackColor = Color.White;
                 _footerSection.BackColor = Color.White;
                 
-                // Update search box for light theme
                 _searchBox.FillColor = Color.FromArgb(248, 249, 250);
                 _searchBox.ForeColor = Color.FromArgb(68, 88, 112);
                 _searchBox.PlaceholderForeColor = Color.FromArgb(125, 137, 149);
                 _searchBox.BorderColor = Color.FromArgb(213, 218, 225);
                 _searchBox.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
                 
-                // Update app title for light theme
                 _appTitleLabel.ForeColor = Color.FromArgb(30, 30, 30);
             }
             
-            // Update all navigation buttons with new theme
             foreach (var button in _navButtons)
             {
                 UpdateButtonTheme(button, isDark);
@@ -322,8 +318,6 @@ namespace Presentation.WinFormsApp.UserControls.Common
             {
                 _themeService.ThemeChanged -= OnThemeChanged;
                 _routerService.Navigated -= OnRouteChanged;
-                
-                // Dispose components if they exist
                 components?.Dispose();
             }
             base.Dispose(disposing);

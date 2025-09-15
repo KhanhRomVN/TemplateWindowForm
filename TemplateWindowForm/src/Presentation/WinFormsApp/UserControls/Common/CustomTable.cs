@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Core.Interfaces.Services;
 
@@ -6,305 +11,501 @@ namespace Presentation.WinFormsApp.UserControls.Common
 {
     public partial class CustomTable : UserControl
     {
-        private readonly IThemeService _themeService;
-        private DataGridView _dataGridView = null!;
-        private Panel _headerPanel = null!;
-        private Panel _actionPanel = null!;
-        private Label _titleLabel = null!;
-        private Label _countLabel = null!;
-        private TextBox _searchTextBox = null!;
-        private Button _addButton = null!;
-        private Button _editButton = null!;
-        private Button _deleteButton = null!;
-        private Button _refreshButton = null!;
-        private Label _searchIcon = null!;
+        private readonly IThemeService? _themeService;
+        private DataGridView dataGridView;
+        private Panel headerPanel;
+        private Panel actionPanel;
+        private TextBox searchTextBox;
+        private Button addButton;
+        private Button editButton;
+        private Button deleteButton;
+        private Label titleLabel;
+        private bool isInitialized = false;
 
-        public string Title
-        {
-            get => _titleLabel.Text;
-            set => _titleLabel.Text = value;
-        }
-
-        public DataGridView DataGrid => _dataGridView;
-
-        public event EventHandler? AddClicked;
-        public event EventHandler? EditClicked;
-        public event EventHandler? DeleteClicked;
-        public event EventHandler? RefreshClicked;
+        // Events
+        public event EventHandler<EventArgs>? AddClicked;
+        public event EventHandler<EventArgs>? EditClicked;
+        public event EventHandler<EventArgs>? DeleteClicked;
         public event EventHandler<string>? SearchTextChanged;
 
+        // Properties
+        public string Title
+        {
+            get => titleLabel?.Text ?? "";
+            set
+            {
+                if (titleLabel != null)
+                    titleLabel.Text = value;
+            }
+        }
+
+        // Constructor with IThemeService
         public CustomTable(IThemeService themeService)
         {
             _themeService = themeService;
             InitializeComponent();
+            InitializeCustomTable();
             SetupTheme();
             
-            _themeService.ThemeChanged += OnThemeChanged;
+            if (_themeService != null)
+                _themeService.ThemeChanged += OnThemeChanged;
+        }
+
+        // Parameterless constructor for backward compatibility
+        public CustomTable()
+        {
+            _themeService = null;
+            InitializeComponent();
+            InitializeBasicTable();
         }
 
         private void InitializeComponent()
         {
-            SuspendLayout();
-
-            // Header Panel with modern design
-            _headerPanel = new Panel
-            {
-                Dock = DockStyle.Top,
-                Height = 120,
-                Padding = new Padding(25, 20, 25, 15)
-            };
-
-            // Title Section
-            _titleLabel = new Label
-            {
-                Text = "Data Table",
-                Font = new Font("Segoe UI", 20F, FontStyle.Bold),
-                AutoSize = true,
-                Location = new Point(0, 0),
-                BackColor = Color.Transparent
-            };
-
-            _countLabel = new Label
-            {
-                Text = "0 items",
-                Font = new Font("Segoe UI", 10F, FontStyle.Regular),
-                AutoSize = true,
-                Location = new Point(0, 35),
-                BackColor = Color.Transparent
-            };
-
-            // Search Section with icon
-            var searchPanel = new Panel
-            {
-                Size = new Size(320, 40),
-                Location = new Point(0, 65),
-                BackColor = Color.Transparent
-            };
-
-            _searchIcon = new Label
-            {
-                Text = "🔍",
-                Font = new Font("Segoe UI", 14F),
-                Size = new Size(20, 20),
-                Location = new Point(15, 10),
-                BackColor = Color.Transparent
-            };
-
-            _searchTextBox = new TextBox
-            {
-                Size = new Size(320, 40),
-                Location = new Point(0, 0),
-                Font = new Font("Segoe UI", 11F),
-                BorderStyle = BorderStyle.FixedSingle,
-                Margin = new Padding(0)
-            };
-            _searchTextBox.TextChanged += OnSearchTextChanged;
-
-            // Position search icon over textbox
-            searchPanel.Controls.Add(_searchTextBox);
-            searchPanel.Controls.Add(_searchIcon);
-            _searchIcon.BringToFront();
-
-            // Action Panel for buttons
-            _actionPanel = new Panel
-            {
-                Size = new Size(400, 50),
-                Anchor = AnchorStyles.Top | AnchorStyles.Right
-            };
-
-            // Action Buttons with modern styling
-            _addButton = CreateActionButton("Add", "➕", Color.FromArgb(34, 197, 94), 0);
-            _addButton.Click += (s, e) => AddClicked?.Invoke(this, EventArgs.Empty);
-
-            _editButton = CreateActionButton("Edit", "✏️", Color.FromArgb(59, 130, 246), 1);
-            _editButton.Click += (s, e) => EditClicked?.Invoke(this, EventArgs.Empty);
-
-            _deleteButton = CreateActionButton("Delete", "🗑️", Color.FromArgb(239, 68, 68), 2);
-            _deleteButton.Click += (s, e) => DeleteClicked?.Invoke(this, EventArgs.Empty);
-
-            _refreshButton = CreateActionButton("Refresh", "🔄", Color.FromArgb(107, 114, 128), 3);
-            _refreshButton.Click += (s, e) => RefreshClicked?.Invoke(this, EventArgs.Empty);
-
-            _actionPanel.Controls.AddRange(new Control[] { 
-                _addButton, _editButton, _deleteButton, _refreshButton 
-            });
-
-            // Add controls to header
-            _headerPanel.Controls.Add(_titleLabel);
-            _headerPanel.Controls.Add(_countLabel);
-            _headerPanel.Controls.Add(searchPanel);
-            _headerPanel.Controls.Add(_actionPanel);
-
-            // Enhanced DataGridView
-            _dataGridView = new DataGridView
-            {
-                Dock = DockStyle.Fill,
-                AllowUserToAddRows = false,
-                AllowUserToDeleteRows = false,
-                ReadOnly = true,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                MultiSelect = false,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                BorderStyle = BorderStyle.None,
-                CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal,
-                ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None,
-                GridColor = Color.FromArgb(243, 244, 246),
-                DefaultCellStyle = new DataGridViewCellStyle
-                {
-                    Font = new Font("Segoe UI", 10F),
-                    Padding = new Padding(12, 8, 12, 8),
-                    BackColor = Color.White,
-                    ForeColor = Color.FromArgb(55, 65, 81),
-                    SelectionBackColor = Color.FromArgb(239, 246, 255),
-                    SelectionForeColor = Color.FromArgb(59, 130, 246)
-                },
-                ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
-                {
-                    Font = new Font("Segoe UI", 11F, FontStyle.Bold),
-                    Padding = new Padding(12, 12, 12, 12),
-                    BackColor = Color.FromArgb(249, 250, 251),
-                    ForeColor = Color.FromArgb(75, 85, 99),
-                    Alignment = DataGridViewContentAlignment.MiddleLeft
-                },
-                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing,
-                ColumnHeadersHeight = 50,
-                RowTemplate = { Height = 50 },
-                BackgroundColor = Color.White,
-                EnableHeadersVisualStyles = false,
-                Margin = new Padding(25, 0, 25, 25)
-            };
-
-            // Add panels to main control
-            Controls.Add(_dataGridView);
-            Controls.Add(_headerPanel);
-
-            // Handle resize to position buttons correctly
-            _headerPanel.Resize += OnHeaderPanelResize;
-
-            Name = "CustomTable";
-            Size = new Size(800, 600);
+            this.SuspendLayout();
             
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "CustomTable";
+            this.Size = new System.Drawing.Size(800, 600);
+            
+            this.ResumeLayout(false);
         }
 
-        private Button CreateActionButton(string text, string icon, Color color, int index)
+        private void InitializeCustomTable()
         {
-            var button = new Button
+            try
             {
-                Text = $"{icon} {text}",
-                Size = new Size(90, 38),
-                Location = new Point(index * 95, 6),
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
-                BackColor = color,
-                ForeColor = Color.White,
-                Cursor = Cursors.Hand,
-                FlatStyle = FlatStyle.Flat,
-                UseVisualStyleBackColor = false
-            };
+                // Header Panel with title and search
+                headerPanel = new Panel
+                {
+                    Dock = DockStyle.Top,
+                    Height = 60,
+                    BackColor = Color.White,
+                    Padding = new Padding(10)
+                };
 
-            button.FlatAppearance.BorderSize = 0;
-            return button;
+                // Title Label
+                titleLabel = new Label
+                {
+                    Text = "Data Table",
+                    Font = new Font("Segoe UI", 14F, FontStyle.Bold),
+                    ForeColor = Color.FromArgb(64, 64, 64),
+                    AutoSize = true,
+                    Location = new Point(10, 15)
+                };
+
+                // Search TextBox
+                searchTextBox = new TextBox
+                {
+                    PlaceholderText = "Search...",
+                    Size = new Size(200, 30),
+                    Location = new Point(580, 15),
+                    Anchor = AnchorStyles.Top | AnchorStyles.Right,
+                    Font = new Font("Segoe UI", 10F)
+                };
+                searchTextBox.TextChanged += OnSearchTextChanged;
+
+                headerPanel.Controls.Add(titleLabel);
+                headerPanel.Controls.Add(searchTextBox);
+
+                // Action Panel with buttons
+                actionPanel = new Panel
+                {
+                    Dock = DockStyle.Top,
+                    Height = 50,
+                    BackColor = Color.FromArgb(248, 249, 250),
+                    Padding = new Padding(10)
+                };
+
+                // Add Button
+                addButton = new Button
+                {
+                    Text = "Add",
+                    Size = new Size(80, 30),
+                    Location = new Point(10, 10),
+                    BackColor = Color.FromArgb(34, 197, 94),
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold)
+                };
+                addButton.FlatAppearance.BorderSize = 0;
+                addButton.Click += (s, e) => AddClicked?.Invoke(this, EventArgs.Empty);
+
+                // Edit Button
+                editButton = new Button
+                {
+                    Text = "Edit",
+                    Size = new Size(80, 30),
+                    Location = new Point(100, 10),
+                    BackColor = Color.FromArgb(59, 130, 246),
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold)
+                };
+                editButton.FlatAppearance.BorderSize = 0;
+                editButton.Click += (s, e) => EditClicked?.Invoke(this, EventArgs.Empty);
+
+                // Delete Button
+                deleteButton = new Button
+                {
+                    Text = "Delete",
+                    Size = new Size(80, 30),
+                    Location = new Point(190, 10),
+                    BackColor = Color.FromArgb(239, 68, 68),
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold)
+                };
+                deleteButton.FlatAppearance.BorderSize = 0;
+                deleteButton.Click += (s, e) => DeleteClicked?.Invoke(this, EventArgs.Empty);
+
+                actionPanel.Controls.Add(addButton);
+                actionPanel.Controls.Add(editButton);
+                actionPanel.Controls.Add(deleteButton);
+
+                // DataGridView
+                dataGridView = new DataGridView
+                {
+                    Dock = DockStyle.Fill,
+                    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                    AllowUserToAddRows = false,
+                    AllowUserToDeleteRows = false,
+                    SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                    MultiSelect = false,
+                    ReadOnly = true,
+                    RowHeadersVisible = false,
+                    BackgroundColor = Color.White,
+                    BorderStyle = BorderStyle.None,
+                    DefaultCellStyle = new DataGridViewCellStyle
+                    {
+                        BackColor = Color.White,
+                        ForeColor = Color.FromArgb(64, 64, 64),
+                        SelectionBackColor = Color.FromArgb(219, 234, 254),
+                        SelectionForeColor = Color.FromArgb(30, 64, 175),
+                        Font = new Font("Segoe UI", 9F)
+                    },
+                    ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+                    {
+                        BackColor = Color.FromArgb(243, 244, 246),
+                        ForeColor = Color.FromArgb(75, 85, 99),
+                        Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                        Alignment = DataGridViewContentAlignment.MiddleLeft
+                    },
+                    EnableHeadersVisualStyles = false,
+                    ColumnHeadersHeight = 40
+                };
+
+                this.Controls.Add(dataGridView);
+                this.Controls.Add(actionPanel);
+                this.Controls.Add(headerPanel);
+
+                isInitialized = true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error initializing CustomTable: {ex.Message}");
+                throw;
+            }
         }
 
-        private void OnHeaderPanelResize(object? sender, EventArgs e)
+        private void InitializeBasicTable()
         {
-            if (_headerPanel.Width > 0)
+            try
             {
-                _actionPanel.Location = new Point(_headerPanel.Width - _actionPanel.Width - 25, 65);
+                dataGridView = new DataGridView();
+                dataGridView.Dock = DockStyle.Fill;
+                dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView.AllowUserToAddRows = false;
+                dataGridView.AllowUserToDeleteRows = false;
+                dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dataGridView.MultiSelect = false;
+                dataGridView.ReadOnly = true;
+                dataGridView.RowHeadersVisible = false;
+                dataGridView.BackgroundColor = Color.White;
+                dataGridView.BorderStyle = BorderStyle.None;
+
+                this.Controls.Add(dataGridView);
+                isInitialized = true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error initializing basic DataGridView: {ex.Message}");
+                throw;
             }
         }
 
         private void OnSearchTextChanged(object? sender, EventArgs e)
         {
-            var searchText = _searchTextBox.Text;
-            SearchTextChanged?.Invoke(this, searchText);
+            if (sender is TextBox textBox)
+            {
+                SearchTextChanged?.Invoke(this, textBox.Text);
+            }
         }
 
-        public void SetDataSource<T>(List<T> data)
+        public DataGridView DataGridView
         {
-            _dataGridView.DataSource = null;
-            if (data != null && data.Count > 0)
+            get { return dataGridView; }
+        }
+
+        public void SetDataSource(object dataSource)
+        {
+            try
             {
-                _dataGridView.DataSource = data;
-                _dataGridView.AutoResizeColumns();
-                UpdateItemCount(data.Count);
-                SetupDataGridTheme();
+                if (!isInitialized || dataGridView == null)
+                {
+                    throw new InvalidOperationException("CustomTable is not properly initialized");
+                }
+
+                dataGridView.DataSource = dataSource;
+                Application.DoEvents();
+                
+                System.Diagnostics.Debug.WriteLine($"DataSource set. Columns count: {dataGridView.Columns.Count}");
             }
-            else
+            catch (Exception ex)
             {
-                UpdateItemCount(0);
+                System.Diagnostics.Debug.WriteLine($"Error setting DataSource: {ex.Message}");
+                throw;
             }
         }
 
         public T? GetSelectedItem<T>() where T : class
         {
-            if (_dataGridView.SelectedRows.Count > 0)
+            try
             {
-                return _dataGridView.SelectedRows[0].DataBoundItem as T;
+                if (dataGridView == null || dataGridView.SelectedRows.Count == 0)
+                    return null;
+
+                var selectedRow = dataGridView.SelectedRows[0];
+                if (selectedRow.DataBoundItem is T item)
+                {
+                    return item;
+                }
+
+                return null;
             }
-            return null;
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error getting selected item: {ex.Message}");
+                return null;
+            }
         }
 
-        private void UpdateItemCount(int count)
+        public void CustomizeColumns(Dictionary<string, object> columnConfig)
         {
-            _countLabel.Text = count == 1 ? "1 item" : $"{count} items";
+            try
+            {
+                if (!ValidateForColumnCustomization())
+                {
+                    return;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"Starting CustomizeColumns with {columnConfig?.Count ?? 0} configurations");
+
+                if (columnConfig == null || columnConfig.Count == 0)
+                {
+                    return;
+                }
+
+                foreach (var config in columnConfig)
+                {
+                    try
+                    {
+                        ProcessColumnConfiguration(config.Key, config.Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error processing column '{config.Key}': {ex.Message}");
+                        continue;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in CustomizeColumns: {ex.Message}");
+                throw;
+            }
+        }
+
+        private bool ValidateForColumnCustomization()
+        {
+            return isInitialized && 
+                   dataGridView != null && 
+                   !dataGridView.IsDisposed && 
+                   dataGridView.Columns.Count > 0;
+        }
+
+        private void ProcessColumnConfiguration(string columnIdentifier, object settings)
+        {
+            DataGridViewColumn? column = FindColumn(columnIdentifier);
+            
+            if (column == null)
+            {
+                return;
+            }
+
+            ApplyColumnSettings(column, settings);
+        }
+
+        private DataGridViewColumn? FindColumn(string identifier)
+        {
+            try
+            {
+                if (dataGridView.Columns.Contains(identifier))
+                {
+                    return dataGridView.Columns[identifier];
+                }
+
+                DataGridViewColumn? column = dataGridView.Columns
+                    .Cast<DataGridViewColumn>()
+                    .FirstOrDefault(c => string.Equals(c.HeaderText, identifier, StringComparison.OrdinalIgnoreCase));
+
+                if (column != null)
+                {
+                    return column;
+                }
+
+                if (int.TryParse(identifier, out int index) && 
+                    index >= 0 && 
+                    index < dataGridView.Columns.Count)
+                {
+                    return dataGridView.Columns[index];
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error finding column '{identifier}': {ex.Message}");
+                return null;
+            }
+        }
+
+        private void ApplyColumnSettings(DataGridViewColumn column, object settings)
+        {
+            try
+            {
+                if (settings is Dictionary<string, object> settingsDict)
+                {
+                    ApplyDictionarySettings(column, settingsDict);
+                }
+                else if (settings is int width)
+                {
+                    SetColumnWidth(column, width);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error applying settings to column '{column.Name}': {ex.Message}");
+                throw;
+            }
+        }
+
+        private void ApplyDictionarySettings(DataGridViewColumn column, Dictionary<string, object> settings)
+        {
+            foreach (var setting in settings)
+            {
+                try
+                {
+                    ApplySingleSetting(column, setting.Key, setting.Value);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error applying setting '{setting.Key}' to column '{column.Name}': {ex.Message}");
+                }
+            }
+        }
+
+        private void ApplySingleSetting(DataGridViewColumn column, string settingName, object value)
+        {
+            switch (settingName.ToLower())
+            {
+                case "width":
+                    if (value is int width)
+                        SetColumnWidth(column, width);
+                    break;
+
+                case "minwidth":
+                case "minimumwidth":
+                    if (value is int minWidth && minWidth > 0)
+                        column.MinimumWidth = minWidth;
+                    break;
+
+                case "visible":
+                    if (value is bool visible)
+                        column.Visible = visible;
+                    break;
+
+                case "readonly":
+                    if (value is bool readOnly)
+                        column.ReadOnly = readOnly;
+                    break;
+
+                case "headertext":
+                case "header":
+                    if (value is string headerText)
+                        column.HeaderText = headerText;
+                    break;
+
+                case "autosize":
+                    if (value is bool autoSize && autoSize)
+                        column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    break;
+            }
+        }
+
+        private void SetColumnWidth(DataGridViewColumn column, int width)
+        {
+            try
+            {
+                if (width > 0 && column.DataGridView != null && !column.DataGridView.IsDisposed)
+                {
+                    int safeWidth = Math.Max(width, column.MinimumWidth);
+                    safeWidth = Math.Min(safeWidth, 1000);
+                    column.Width = safeWidth;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error setting width for column {column?.Name}: {ex.Message}");
+            }
         }
 
         private void SetupTheme()
         {
-            var colors = _themeService.CurrentColors;
-            var isDark = _themeService.CurrentTheme == Core.Enums.ThemeType.Dark;
-            
-            BackColor = colors.Background;
-            _headerPanel.BackColor = colors.Background;
-            
-            // Title styling
-            _titleLabel.ForeColor = colors.TextPrimary;
-            _countLabel.ForeColor = colors.TextSecondary;
-            
-            // Search box theming
-            _searchTextBox.BackColor = colors.Surface;
-            _searchTextBox.ForeColor = colors.TextPrimary;
-            
-            _searchIcon.ForeColor = colors.TextSecondary;
-            
-            SetupDataGridTheme();
-        }
+            if (_themeService == null) return;
 
-        private void SetupDataGridTheme()
-        {
             var colors = _themeService.CurrentColors;
             var isDark = _themeService.CurrentTheme == Core.Enums.ThemeType.Dark;
+
+            BackColor = colors.Background;
             
-            if (isDark)
+            if (headerPanel != null)
             {
-                // Dark theme for DataGridView
-                _dataGridView.BackgroundColor = colors.Surface;
-                _dataGridView.GridColor = Color.FromArgb(63, 63, 70);
-                
-                _dataGridView.DefaultCellStyle.BackColor = colors.Surface;
-                _dataGridView.DefaultCellStyle.ForeColor = colors.OnSurface;
-                _dataGridView.DefaultCellStyle.SelectionBackColor = Color.FromArgb(30, colors.Primary.R, colors.Primary.G, colors.Primary.B);
-                _dataGridView.DefaultCellStyle.SelectionForeColor = colors.Primary;
-                
-                _dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(24, 24, 27);
-                _dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = colors.OnSurface;
-                
-                _dataGridView.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(39, 39, 42);
-                _dataGridView.AlternatingRowsDefaultCellStyle.ForeColor = colors.OnSurface;
-                _dataGridView.AlternatingRowsDefaultCellStyle.SelectionBackColor = Color.FromArgb(40, colors.Primary.R, colors.Primary.G, colors.Primary.B);
-                _dataGridView.AlternatingRowsDefaultCellStyle.SelectionForeColor = colors.Primary;
+                headerPanel.BackColor = colors.Surface;
+                if (titleLabel != null)
+                    titleLabel.ForeColor = colors.TextPrimary;
+                if (searchTextBox != null)
+                {
+                    searchTextBox.BackColor = colors.Surface;
+                    searchTextBox.ForeColor = colors.TextPrimary;
+                }
             }
-            else
+
+            if (actionPanel != null)
             {
-                // Light theme for DataGridView (already configured in InitializeComponent)
-                _dataGridView.BackgroundColor = colors.Surface;
-                _dataGridView.GridColor = Color.FromArgb(229, 231, 235);
+                actionPanel.BackColor = isDark ? colors.Background : Color.FromArgb(248, 249, 250);
+            }
+
+            if (dataGridView != null)
+            {
+                dataGridView.BackgroundColor = colors.Surface;
+                dataGridView.DefaultCellStyle.BackColor = colors.Surface;
+                dataGridView.DefaultCellStyle.ForeColor = colors.TextPrimary;
+                dataGridView.DefaultCellStyle.SelectionBackColor = colors.Primary;
+                dataGridView.DefaultCellStyle.SelectionForeColor = colors.OnPrimary;
                 
-                _dataGridView.DefaultCellStyle.BackColor = colors.Surface;
-                _dataGridView.DefaultCellStyle.ForeColor = colors.OnSurface;
-                _dataGridView.DefaultCellStyle.SelectionBackColor = Color.FromArgb(239, 246, 255);
-                _dataGridView.DefaultCellStyle.SelectionForeColor = Color.FromArgb(59, 130, 246);
+                dataGridView.ColumnHeadersDefaultCellStyle.BackColor = isDark ? colors.Background : Color.FromArgb(243, 244, 246);
+                dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = colors.TextSecondary;
             }
         }
 
@@ -320,14 +521,39 @@ namespace Presentation.WinFormsApp.UserControls.Common
             }
         }
 
-        protected override void Dispose(bool disposing)
+        public void RefreshTable()
         {
-            if (disposing)
+            try
             {
-                _themeService.ThemeChanged -= OnThemeChanged;
-                _headerPanel.Resize -= OnHeaderPanelResize;
+                if (dataGridView != null && !dataGridView.IsDisposed)
+                {
+                    dataGridView.Refresh();
+                    Application.DoEvents();
+                }
             }
-            base.Dispose(disposing);
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error refreshing table: {ex.Message}");
+            }
         }
+
+        public void ClearTable()
+        {
+            try
+            {
+                if (dataGridView != null && !dataGridView.IsDisposed)
+                {
+                    dataGridView.DataSource = null;
+                    dataGridView.Rows.Clear();
+                    dataGridView.Columns.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error clearing table: {ex.Message}");
+            }
+        }
+
+        // Note: Dispose method is now only in CustomTable.Designer.cs to avoid duplicate definitions
     }
 }
