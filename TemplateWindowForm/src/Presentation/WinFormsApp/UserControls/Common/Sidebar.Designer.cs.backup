@@ -2,6 +2,11 @@ namespace Presentation.WinFormsApp.UserControls.Common
 {
     partial class Sidebar
     {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
         #region Component Designer generated code
 
         /// <summary>
@@ -9,7 +14,6 @@ namespace Presentation.WinFormsApp.UserControls.Common
         /// the contents of this method with the code editor.
         /// </summary>
         // InitializeComponent is implemented in Sidebar.cs
-        // Components field is declared in Sidebar.cs
 
         #endregion
     }

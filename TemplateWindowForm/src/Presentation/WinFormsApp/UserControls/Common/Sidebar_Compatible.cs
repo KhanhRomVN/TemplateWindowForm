@@ -1,13 +1,12 @@
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Core.Interfaces.Services;
 using Guna.UI2.WinForms;
 
 namespace Presentation.WinFormsApp.UserControls.Common
 {
-    public partial class Sidebar : UserControl
+    public partial class SidebarCompatible : UserControl
     {
         private readonly IThemeService _themeService;
         private readonly IRouterService _routerService;
@@ -23,9 +22,9 @@ namespace Presentation.WinFormsApp.UserControls.Common
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer? components = null;
+        private IContainer? components = null;
 
-        public Sidebar(IThemeService themeService, IRouterService routerService)
+        public SidebarCompatible(IThemeService themeService, IRouterService routerService)
         {
             _themeService = themeService;
             _routerService = routerService;
@@ -125,7 +124,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
             Controls.Add(_footerSection);
             Controls.Add(_headerSection);
 
-            Name = "Sidebar";
+            Name = "SidebarCompatible";
             
             ResumeLayout(false);
         }
@@ -190,9 +189,6 @@ namespace Presentation.WinFormsApp.UserControls.Common
                 button.FillColor = Color.FromArgb(37, 99, 235);
                 button.ForeColor = Color.White;
                 button.Font = new Font(FontFamily.GenericSansSerif, 9.5F, FontStyle.Bold);
-                button.ShadowDecoration.Enabled = true;
-                button.ShadowDecoration.Shadow = new Padding(0, 2, 0, 0);
-                button.ShadowDecoration.Color = Color.FromArgb(50, 37, 99, 235);
             }
             else
             {
@@ -200,7 +196,6 @@ namespace Presentation.WinFormsApp.UserControls.Common
                 button.FillColor = Color.Transparent;
                 button.ForeColor = isDark ? Color.FromArgb(156, 163, 175) : Color.FromArgb(107, 114, 128);
                 button.Font = new Font(FontFamily.GenericSansSerif, 9.5F, FontStyle.Regular);
-                button.ShadowDecoration.Enabled = false;
             }
         }
         
@@ -218,8 +213,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
                 BorderThickness = 0,
                 TextAlign = HorizontalAlignment.Left,
                 Cursor = Cursors.Hand,
-                UseTransparentBackground = true,
-                ShadowDecoration = { Enabled = false }
+                UseTransparentBackground = true
             };
             
             // Set hover state colors
