@@ -1,12 +1,7 @@
 namespace Presentation.WinFormsApp.UserControls.Common
 {
-    partial class CustomButton
+    partial class CustomCombobox
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
         #region Component Designer generated code
 
         /// <summary>
@@ -16,7 +11,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
         private void InitializeComponent()
         {
             // This method is intentionally empty as initialization 
-            // is handled in the main CustomButton.cs file via InitializeCustomButton()
+            // is handled in the main CustomCombobox.cs file via InitializeCustomCombobox()
         }
 
         #endregion

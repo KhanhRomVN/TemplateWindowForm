@@ -8,6 +8,15 @@
     <Compile Update="UserControls\Common\CustomButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="UserControls\Common\CustomDrawer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserControls\Common\CustomInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\Common\CustomModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="UserControls\Common\CustomTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -27,9 +36,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="UserControls\ToolPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="UserControls\Tool\ToolTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>

@@ -11,39 +11,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                try
-                {
-                    if (_themeService != null)
-                    {
-                        _themeService.ThemeChanged -= OnThemeChanged;
-                    }
-
-                    if (searchTextBox != null)
-                    {
-                        searchTextBox.TextChanged -= OnSearchTextChanged;
-                    }
-
-                    if (dataGridView != null && !dataGridView.IsDisposed)
-                    {
-                        dataGridView.Dispose();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Error disposing CustomTable: {ex.Message}");
-                }
-                
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
+        // Removed duplicate Dispose method - using the one from the main class
 
         #region Component Designer generated code
 

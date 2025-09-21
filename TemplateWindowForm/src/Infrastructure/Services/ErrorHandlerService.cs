@@ -18,7 +18,8 @@ namespace Infrastructure.Services
 
         public ErrorHandlerService()
         {
-            _isDebugMode = Debugger.IsAttached || Debug.Listeners.Count > 1;
+            // Fixed: Use Debugger.IsAttached instead of Debug.Listeners
+            _isDebugMode = Debugger.IsAttached;
         }
 
         public void LogError(string message, Exception exception = null)

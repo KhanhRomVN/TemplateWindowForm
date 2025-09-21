@@ -1,13 +1,8 @@
 namespace Presentation.WinFormsApp.UserControls.Common
 {
-    partial class CustomButton
+    partial class CustomDrawer
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        #region Component Designer generated code
+        #region Windows Form Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -16,7 +11,7 @@ namespace Presentation.WinFormsApp.UserControls.Common
         private void InitializeComponent()
         {
             // This method is intentionally empty as initialization 
-            // is handled in the main CustomButton.cs file via InitializeCustomButton()
+            // is handled in the main CustomDrawer.cs file via InitializeCustomDrawer()
         }
 
         #endregion
